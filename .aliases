@@ -1,0 +1,20 @@
+#!/bin/bash
+
+alias kee='keepass2 ~/Downloads/Hehe.kdbx'
+alias ded="shutdown -h now"
+alias red="shutdown -h -r now"
+alias up="sudo apt update && sudo apt upgrade"
+alias mlt="rlwrap sml"
+alias folder="nemo . &"
+
+#Pass aliases
+alias p_gh="pass -c dbs/github-master"
+alias p_gl="pass -c dbs/gitlab-master"
+alias p_bb="pass -c dbs/bitbucket-master"
+alias p_unlock="pass unlock"
+alias p_lock="gpgconf --kill gpg-agent"
+
+
+#Misc
+alias doOS="cd ~/Documents/Projects/OS/repo/112001053_112001057
+git status"

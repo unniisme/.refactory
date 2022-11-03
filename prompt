@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#source this in .bashrc to apply to open terminals
+
+# Load prompt
+if [ -f .refactory/.prompt ]; then
+	source .refactory/.prompt
+else
+	source ~/.refactory/default.prompt
+fi
+
+# Prompt aliases
+alias refactory="source .refactory/.prompt"
+alias refac="source .refactory/.prompt"
+alias refacDefault="source ~/.refactory/default.prompt"
+
+
+# Other aliases
+source ~/.refactory/.aliases
