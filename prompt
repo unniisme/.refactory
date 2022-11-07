@@ -2,11 +2,14 @@
 
 #source this in .bashrc to apply to open terminals
 
-# Load prompt
-if [ -f .refactory/.prompt ]; then
-	source .refactory/.prompt
-else
-	source ~/.refactory/default.prompt
+# Check for visual monitor
+if [[ "$(tty)" == *"pts"* ]]; then
+	# Load prompt
+	if [ -f .refactory/.prompt ]; then
+		source .refactory/.prompt
+	else
+		source ~/.refactory/default.prompt
+	fi
 fi
 
 # Prompt aliases

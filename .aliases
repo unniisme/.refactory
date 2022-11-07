@@ -1,11 +1,14 @@
 #!/bin/bash
 
-alias kee='keepass2 ~/Downloads/Hehe.kdbx'
-alias ded="shutdown -h now"
-alias red="shutdown -h -r now"
-alias up="sudo apt update && sudo apt upgrade"
-alias mlt="rlwrap sml"
-alias folder="nemo . &"
+alias kee='keepass2 ~/Downloads/Hehe.kdbx'      #Keepass
+alias ded="shutdown -h now"                     #Shutdown
+alias red="shutdown -h -r now"                  #Restart
+alias up="sudo apt update && sudo apt upgrade"  #Update and upgrade
+alias folder="nemo . &"                         #Open file manager from cli
+alias x="exit"                                  #quick exit
+alias Software="sudo mkdir -p /media/unnii/Softwares
+sudo mount /dev/nvme0n1p5 /media/unnii/Softwares/
+cd /media/unnii/Softwares"
 
 #Pass aliases
 alias p_gh="pass -c dbs/github-master"
@@ -18,3 +21,4 @@ alias p_lock="gpgconf --kill gpg-agent"
 #Misc
 alias doOS="cd ~/Documents/Projects/OS/repo/112001053_112001057
 git status"
+alias mlt="rlwrap sml"                          #Sml
