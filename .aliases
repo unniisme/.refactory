@@ -9,6 +9,15 @@ alias x="exit"                                  #quick exit
 alias Software="sudo mkdir -p /media/unnii/Softwares
 sudo mount /dev/nvme0n1p5 /media/unnii/Softwares/
 cd /media/unnii/Softwares"
+alias g="git"
+
+#Show mounted drives
+alias drives="mount | awk -F' ' '{ printf \"%s\t%s\n\",\$1,\$3; }' | column -t | egrep ^/dev/ | sort"
+
+
+alias lsa="ls -la"						#list all
+alias lsize='ls --human-readable --size -1 -S --classify'	#list in size order
+alias ltime='ls -t -1'						#list in timestamp order
 
 #Pass aliases
 alias p_gh="pass -c dbs/github-master"
@@ -16,7 +25,6 @@ alias p_gl="pass -c dbs/gitlab-master"
 alias p_bb="pass -c dbs/bitbucket-master"
 alias p_unlock="pass unlock"
 alias p_lock="gpgconf --kill gpg-agent"
-
 
 #Misc
 alias doOS="cd ~/Documents/Projects/OS/repo/112001053_112001057

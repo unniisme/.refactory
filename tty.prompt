@@ -1,0 +1,44 @@
+#!/bin/bash
+
+FMT_BOLD="\[\e[01m\]"
+FMT_DIM="\[\e[02m\]"
+FMT_RESET="\[\e[00m\]"
+FMT_UNBOLD="\[\e[22m\]"
+FMT_UNDIM="\[\e[22m\]"
+FG_BLACK="\[\e[30m\]"
+FG_BLUE="\[\e[34m\]"
+FG_CYAN="\[\e[36m\]"
+FG_GREEN="\[\e[32m\]"
+FG_YELLOW="\[\e[33m\]"
+FG_GREY="\[\e[37m\]"
+FG_MAGENTA="\[\e[35m\]"
+FG_RED="\[\e[31m\]"
+FG_WHITE="\[\e[97m\]"
+BG_BLACK="\[\e[40m\]"
+BG_BLUE="\[\e[44m\]"
+BG_CYAN="\[\e[46m\]"
+BG_GREEN="\[\e[42m\]"
+BG_YELLOW="\[\e[43m\]"
+BG_MAGENTA="\[\e[45m\]"
+
+FG_RANDOM="\033[38;5;130m"
+BG_RANDOM="\033[48:5:130m"
+
+
+parse_git_bg() {
+	[[ $(git status -s 2> /dev/null) ]] && echo -e "\e[43m" || echo -e "\e[42m"
+}
+
+parse_git_fg() {
+	[[ $(git status -s 2> /dev/null) ]] && echo -e "\e[33m" || echo -e "\e[32m"
+}
+
+
+PS1="${FMT_BOLD}"
+PS1+="${FG_MAGENTA} \u " # print username
+PS1+="${FMT_UNBOLD} ${FG_MAGENTA}${FG_GREEN} " # end USERNAME container / begin TIME container
+PS1+="⏲ \D{%d/%m/%Y} " # print time 
+PS1+="${FG_BLUE} " # end TIME container / begin DIRECTORY container
+PS1+="\w " # print directory
+PS1+="${FMT_RESET}"
+export PS1

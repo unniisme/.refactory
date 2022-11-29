@@ -66,6 +66,10 @@ codeLang() {
 	smls=$(find . -maxdepth $maxdepth -name "*.sml" | wc -l )
 	shs=$(find . -maxdepth $maxdepth -name "*.sh" | wc -l )
 	javas=$(find . -maxdepth $maxdepth -name "*.java" -o -name "*.jar" | wc -l)
+	jss=$(find . -maxdepth $maxdepth -name "*.js" | wc -l )
+	htmls=$(find . -maxdepth $maxdepth -name "*.html" | wc -l )
+	csss=$(find . -maxdepth $maxdepth -name "*.css" | wc -l )
+
 
 	if (($cpps > $basecount)); then 
 		string+="${FG_BLUE:2:6}  ${FMT_RESET:2:6}" 
@@ -85,6 +89,15 @@ codeLang() {
 	if (($javas > $basecount)); then 
 		string+="${FG_GREEN:2:6}  ${FMT_RESET:2:6}" 
 	fi
+	if (($jss > $basecount)); then
+		string+="${FG_YELLOW:2:6}  ${FMT_RESET:2:6}"
+	fi
+	if (($htmls > $basecount)); then
+		string+="${FG_YELLOW:2:6}  ${FMT_RESET:2:6}"
+	fi
+	if (($csss > $basecount)); then
+		string+="${FG_YELLOW:2:6}  ${FMT_RESET:2:6}"
+	fi 
 
 	printf "$string"
 
