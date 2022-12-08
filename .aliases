@@ -1,13 +1,12 @@
 #!/bin/bash
 
-alias kee='keepass2 ~/Downloads/Hehe.kdbx'      #Keepass
+alias kee='keepass2 ~/.password-store/Hehe.kdbx'      #Keepass
 alias ded="shutdown -h now"                     #Shutdown
 alias red="shutdown -h -r now"                  #Restart
 alias up="sudo apt update && sudo apt upgrade"  #Update and upgrade
 alias folder="nemo . &"                         #Open file manager from cli
 alias x="exit"                                  #quick exit
-alias Software="sudo mkdir -p /media/unnii/Softwares
-sudo mount /dev/nvme0n1p5 /media/unnii/Softwares/
+alias Software="udisksctl mount --block-device=/dev/nvme0n1p5
 cd /media/unnii/Softwares"
 alias g="git"
 

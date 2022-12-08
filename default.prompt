@@ -14,6 +14,7 @@ FG_GREY="\[\e[37m\]"
 FG_MAGENTA="\[\e[35m\]"
 FG_RED="\[\e[31m\]"
 FG_WHITE="\[\e[97m\]"
+FG_ORANGE="\033[38;2;255;165;0m"
 BG_BLACK="\[\e[40m\]"
 BG_BLUE="\[\e[44m\]"
 BG_CYAN="\[\e[46m\]"
@@ -25,7 +26,7 @@ FG_RANDOM="\033[38;5;130m"
 BG_RANDOM="\033[48:5:130m"
 
 folders() {
-	echo $(find . -mindepth 1 -maxdepth 1 -type d | wc -l)
+	echo $(find . -mindepth 1 -maxdepth 1 -type d 2>> /dev/null  | wc -l)
 }
 
 parse_git_bg() {
@@ -60,15 +61,16 @@ codeLang() {
 		maxdepth=1
 	fi
 
-	cpps=$(find . -maxdepth $maxdepth -name "*.cpp" | wc -l )
-	cs=$(find . -maxdepth $maxdepth -name "*.c" | wc -l )
-	pys=$(find . -maxdepth $maxdepth -name "*.py" | wc -l )
-	smls=$(find . -maxdepth $maxdepth -name "*.sml" | wc -l )
-	shs=$(find . -maxdepth $maxdepth -name "*.sh" | wc -l )
-	javas=$(find . -maxdepth $maxdepth -name "*.java" -o -name "*.jar" | wc -l)
-	jss=$(find . -maxdepth $maxdepth -name "*.js" | wc -l )
-	htmls=$(find . -maxdepth $maxdepth -name "*.html" | wc -l )
-	csss=$(find . -maxdepth $maxdepth -name "*.css" | wc -l )
+	cpps=$(find . -maxdepth $maxdepth -name "*.cpp" 2>> /dev/null| wc -l )
+	cs=$(find . -maxdepth $maxdepth -name "*.c" 2>> /dev/null| wc -l )
+	pys=$(find . -maxdepth $maxdepth -name "*.py" 2>> /dev/null| wc -l )
+	smls=$(find . -maxdepth $maxdepth -name "*.sml" 2>> /dev/null| wc -l )
+	shs=$(find . -maxdepth $maxdepth -name "*.sh" 2>> /dev/null| wc -l )
+	javas=$(find . -maxdepth $maxdepth -name "*.java" -o -name "*.jar" 2>> /dev/null| wc -l)
+	jss=$(find . -maxdepth $maxdepth -name "*.js" 2>> /dev/null| wc -l )
+	htmls=$(find . -maxdepth $maxdepth -name "*.html" 2>> /dev/null| wc -l )
+	csss=$(find . -maxdepth $maxdepth -name "*.css" 2>> /dev/null| wc -l )
+	rusts=$(find . -maxdepth $maxdepth -name "*.rs" 2>> /dev/null| wc -l )
 
 
 	if (($cpps > $basecount)); then 
@@ -93,10 +95,13 @@ codeLang() {
 		string+="${FG_YELLOW:2:6}  ${FMT_RESET:2:6}"
 	fi
 	if (($htmls > $basecount)); then
-		string+="${FG_YELLOW:2:6}  ${FMT_RESET:2:6}"
+		string+="${FG_ORANGE}  ${FMT_RESET:2:6}"
 	fi
 	if (($csss > $basecount)); then
-		string+="${FG_YELLOW:2:6}  ${FMT_RESET:2:6}"
+		string+="${FG_BLUE:2:6}  ${FMT_RESET:2:6}"
+	fi
+	if (($rusts > $basecount)); then
+		string+="${FG_RED:2:6}  ${FMT_RESET:2:6}"
 	fi 
 
 	printf "$string"
@@ -109,13 +114,13 @@ extraLine() {	# for inserting a new line in specific cases. example is given bel
 	string=""
 
 	#Customization
-	if [ ${PWD##*/} == ".refactory" ]; then
+	if [ "${PWD##*/}" == ".refactory" ]; then
 		#string="\n│  ${FG_CYAN:2:6}${BG_CYAN:2:6}${FG_RED:2:6} Customizing ${FMT_RESET:2:6}${FG_CYAN:2:6}"
 		string="${FG_BLUE:2:6}\n│  ${FG_RED:2:6}  Customizing ${FMT_RESET:2:6}"
 	fi
 
 	#Pass
-	if [ ${PWD##*/} == ".password-store" ]; then
+	if [ "${PWD##*/}" == ".password-store" ]; then
 		string="${FG_BLUE:2:6}\n│  ${FG_RED:2:6} ﳳ pass ${FMT_RESET:2:6}"
 	fi
 	
@@ -134,8 +139,8 @@ PS1+="${FG_GREY}\w " # print directory
 PS1+="${FG_BLUE}${BG_CYAN} " # end DIRECTORY container / begin FILES container
 PS1+="${FG_BLACK}"
 PS1+=" \$(folders) " # print number of folders
-PS1+=" \$(find . -mindepth 1 -maxdepth 1 -type f | wc -l) " # print number of files
-PS1+=" \$(find . -mindepth 1 -maxdepth 1 -type l | wc -l) " # print number of symlinks
+PS1+=" \$(find . -mindepth 1 -maxdepth 1 -type f 2>> /dev/null | wc -l) " # print number of files
+PS1+=" \$(find . -mindepth 1 -maxdepth 1 -type l 2>> /dev/null | wc -l) " # print number of symlinks
 PS1+="${FMT_RESET}${FG_CYAN}"
 PS1+="\$(git branch 2> /dev/null | grep '^*' | colrm 1 2 | xargs -I BRANCH echo -n \"" # check if git branch exists
 PS1+="\$(parse_git_bg) " # end FILES container / begin BRANCH container
