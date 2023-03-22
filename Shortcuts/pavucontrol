@@ -1,0 +1,7 @@
+# Interface
+pavucontrol
+
+# Activate loopback
+pactl load-module module-loopback latency_msec=1
+# Deactivate loopback
+pactl unload-module module-loopback

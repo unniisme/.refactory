@@ -28,4 +28,7 @@ alias p_lock="gpgconf --kill gpg-agent"
 #Misc
 alias doOS="cd ~/Documents/Projects/OS/repo/112001053_112001057
 git status"
+alias doOCR="cd ~/Documents/Projects/OCR-indic/
+code .
+git status"
 alias mlt="rlwrap sml"                          #Sml

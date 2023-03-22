@@ -1,0 +1,8 @@
+s = status
+ll = log --oneline
+l = log
+last = log -1 HEAD --stat
+a = add
+c = commit
+p = push
+alias = ! git config --get-regexp ^alias\. | sed -e s/^alias\.// -e s/\ /\ =\ /
