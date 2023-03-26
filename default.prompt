@@ -155,3 +155,26 @@ PS1+="${FG_BLUE}╰ " # end arrow to prompt
 PS1+="${FG_CYAN}\\$ " # print prompt
 PS1+="${FMT_RESET}"
 export PS1
+
+
+# cd overrides
+function CD() { 
+	# cdls
+	cd "$@" && ls --color=auto;
+
+	# Show git
+	if [ -d ".git" ]; then
+    	git status
+	fi
+
+	## Prompt override
+	# PROMPT_FILE=$(ls *.prompt 2>/dev/null)
+	# if [ -n "$PROMPT_FILE" ]; then
+	# 	source "$PROMPT_FILE"
+	# fi
+}
+
+alias c="CD"
+alias Cd="CD"
+alias cD="CD"
+#alias cd="CD" #Not recommended
