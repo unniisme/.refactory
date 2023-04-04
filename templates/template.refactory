@@ -1,0 +1,36 @@
+#!/bin/bash
+
+#This file denotes how a refactory prompt override should be written
+
+echo "Sourcing template"
+
+extraLine() {	# for inserting a new line for this subdirectory
+
+	#Customization
+   #string="\n│  ${FG_CYAN:2:6}${BG_CYAN:2:6}${FG_RED:2:6} Customizing ${FMT_RESET:2:6}${FG_CYAN:2:6}"
+   string="${FG_BLUE:2:6}\n│  ${FG_RED:2:6}  example template ${FMT_RESET:2:6}"
+
+	printf "$string"
+}
+
+# Check if I'm in the required directory, else deactivate this script
+dircheck() {
+   if ! pwd | grep -q "$HOME/.refactory/templates"; then
+      deactivate
+}
+
+
+deactivate() {
+   echo "Deactivating template"
+
+   unset dircheck
+   unset extraLine
+
+   # add any other deactivations here if required
+   
+   
+   source ~/.refactory/default.prompt "$@"
+
+   echo "Done"
+}
+

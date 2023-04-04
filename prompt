@@ -4,18 +4,11 @@
 
 # Check for visual monitor
 if [[ "$(tty)" == *"pts"* ]]; then
-	# Load prompt
-	if [ -f .refactory/.prompt ]; then
-		source .refactory/.prompt
-	else
-		source ~/.refactory/default.prompt
-	fi
+	source ~/.refactory/default.prompt
 fi
 
 # Prompt aliases
-alias refactory="source .refactory/.prompt"
-alias refac="source .refactory/.prompt"
-alias refacDefault="source ~/.refactory/default.prompt"
+alias refactory="source ~/.refactory/default.prompt"
 
 
 # Other aliases

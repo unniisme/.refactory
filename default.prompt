@@ -127,8 +127,13 @@ extraLine() {	# for inserting a new line in specific cases. example is given bel
 	printf "$string"
 }
 
+# Run the code specific to each directory wise prompt
+dircheck () {
+	:
+}
 
-PS1="\n${FG_BLUE}╭─" # begin arrow to prompt	
+PS1="\$(dircheck)"
+PS1+="\n${FG_BLUE}╭─" # begin arrow to prompt	
 PS1+="${FG_MAGENTA}" # begin USERNAME container
 PS1+="${BG_MAGENTA}${FG_CYAN}${FMT_BOLD}   " # print OS icon
 PS1+="${FG_WHITE}\u " # print username
@@ -168,13 +173,39 @@ function CD() {
 	fi
 
 	## Prompt override
-	# PROMPT_FILE=$(ls *.prompt 2>/dev/null)
-	# if [ -n "$PROMPT_FILE" ]; then
-	# 	source "$PROMPT_FILE"
-	# fi
+	#Potentially dangerous
+	PROMPT_FILE=$(ls *.refactory 2>/dev/null)
+	if [ -n "$PROMPT_FILE" ]; then
+		source "$PROMPT_FILE"
+	fi
 }
 
 alias c="CD"
 alias Cd="CD"
 alias cD="CD"
 #alias cd="CD" #Not recommended
+
+
+# copy-paste
+function copyf {
+  _copypastefiles=("$@")
+  _copypastesrc="$PWD"
+  _copypastemode=copy
+}
+
+function cutf {
+  _copypastefiles=("$@")
+  _copypastesrc="$PWD"
+  _copypastemode=cut
+}
+
+function pastef {
+  for f in "${_copypastefiles[@]}"
+  do
+    cp "${_copypastesrc}/$f" .
+    if [[ ${_copypastemode} = "cut" ]]
+    then
+      rm "${_copypastesrc}/$f"
+    fi
+  done
+}
