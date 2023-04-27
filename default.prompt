@@ -37,77 +37,6 @@ parse_git_fg() {
 	[[ $(git status -s 2> /dev/null) ]] && echo -e "\e[33m" || echo -e "\e[32m"
 }
 
-
-#quite specific to gpg in my PC. Might have to edit
-gpgRunning() {
-   	STR=$(gpg-connect-agent 'keyinfo --list' /bye)
-	SUB="D - - 1"
-	if [[ "$STR" == *"$SUB"* ]]; then
-		echo "  "
-	fi
-}
-
-codeLang() {
-
-	string=""
-
-		#Code lang
-	basecount=2
-	maxdepth=3
-	if (($(folders) > 15)); then
-		maxdepth=2
-	fi
-	if (($(folders) > 30)); then
-		maxdepth=1
-	fi
-
-	cpps=$(find . -maxdepth $maxdepth -name "*.cpp" 2>> /dev/null| wc -l )
-	cs=$(find . -maxdepth $maxdepth -name "*.c" 2>> /dev/null| wc -l )
-	pys=$(find . -maxdepth $maxdepth -name "*.py" 2>> /dev/null| wc -l )
-	smls=$(find . -maxdepth $maxdepth -name "*.sml" 2>> /dev/null| wc -l )
-	shs=$(find . -maxdepth $maxdepth -name "*.sh" 2>> /dev/null| wc -l )
-	javas=$(find . -maxdepth $maxdepth -name "*.java" -o -name "*.jar" 2>> /dev/null| wc -l)
-	jss=$(find . -maxdepth $maxdepth -name "*.js" 2>> /dev/null| wc -l )
-	htmls=$(find . -maxdepth $maxdepth -name "*.html" 2>> /dev/null| wc -l )
-	csss=$(find . -maxdepth $maxdepth -name "*.css" 2>> /dev/null| wc -l )
-	rusts=$(find . -maxdepth $maxdepth -name "*.rs" 2>> /dev/null| wc -l )
-
-
-	if (($cpps > $basecount)); then 
-		string+="${FG_BLUE:2:6}  ${FMT_RESET:2:6}" 
-	fi
-	if (($cs > $basecount)); then 
-		string+="${FG_BLUE:2:6}  ${FMT_RESET:2:6}" 
-	fi
-	if (($pys > $basecount)); then 
-		string+="${FG_YELLOW:2:6}  ${FMT_RESET:2:6}" 
-	fi
-	if (($smls > $basecount)); then 
-		string+="${FG_WHITE:2:6} .sml ${FMT_RESET:2:6}" 
-	fi
-	if (($shs > $basecount)); then 
-		string+="${FG_GREEN:2:6}  ${FMT_RESET:2:6}" 
-	fi
-	if (($javas > $basecount)); then 
-		string+="${FG_GREEN:2:6}  ${FMT_RESET:2:6}" 
-	fi
-	if (($jss > $basecount)); then
-		string+="${FG_YELLOW:2:6}  ${FMT_RESET:2:6}"
-	fi
-	if (($htmls > $basecount)); then
-		string+="${FG_ORANGE}  ${FMT_RESET:2:6}"
-	fi
-	if (($csss > $basecount)); then
-		string+="${FG_BLUE:2:6}  ${FMT_RESET:2:6}"
-	fi
-	if (($rusts > $basecount)); then
-		string+="${FG_RED:2:6}  ${FMT_RESET:2:6}"
-	fi 
-
-	printf "$string"
-
-}
-
 extraLine() {	# for inserting a new line in specific cases. example is given below
 
 
@@ -116,12 +45,12 @@ extraLine() {	# for inserting a new line in specific cases. example is given bel
 	#Customization
 	if [ "${PWD##*/}" == ".refactory" ]; then
 		#string="\n│  ${FG_CYAN:2:6}${BG_CYAN:2:6}${FG_RED:2:6} Customizing ${FMT_RESET:2:6}${FG_CYAN:2:6}"
-		string="${FG_BLUE:2:6}\n│  ${FG_RED:2:6}  Customizing ${FMT_RESET:2:6}"
+		string="${FG_BLUE:2:6}\n${FG_RED:2:6}  Customizing ${FMT_RESET:2:6}"
 	fi
 
 	#Pass
 	if [ "${PWD##*/}" == ".password-store" ]; then
-		string="${FG_BLUE:2:6}\n│  ${FG_RED:2:6} ﳳ pass ${FMT_RESET:2:6}"
+		string="${FG_BLUE:2:6}\n${FG_RED:2:6} ﳳ pass ${FMT_RESET:2:6}"
 	fi
 	
 	printf "$string"
@@ -133,30 +62,25 @@ dircheck () {
 }
 
 PS1="\$(dircheck)"
-PS1+="\n${FG_BLUE}╭─" # begin arrow to prompt	
-PS1+="${FG_MAGENTA}" # begin USERNAME container
-PS1+="${BG_MAGENTA}${FG_CYAN}${FMT_BOLD}   " # print OS icon
+PS1+="\n${FG_BLUE}" # begin arrow to prompt	
+PS1+="${FG_MAGENTA}" # begin USERNAME container
+PS1+="${BG_MAGENTA}${FG_CYAN}${FMT_BOLD} Termux " # print OS icon
 PS1+="${FG_WHITE}\u " # print username
-PS1+="${FMT_UNBOLD} ${FG_MAGENTA}${BG_GREEN} " # end USERNAME container / begin TIME container
-PS1+="${FG_BLACK} \D{%d/%m/%Y} " # print time 
-PS1+="${FG_GREEN}${BG_BLUE} " # end TIME container / begin DIRECTORY container
+PS1+="${FMT_UNBOLD} ${FG_MAGENTA}${BG_GREEN}" # end USERNAME container / begin TIME container
+PS1+="${FG_BLACK}📅 \D{%d/%m/%Y} " # print time 
+PS1+="${FG_GREEN}${BG_BLUE} " # end TIME container / begin DIRECTORY container
 PS1+="${FG_GREY}\w " # print directory
-PS1+="${FG_BLUE}${BG_CYAN} " # end DIRECTORY container / begin FILES container
+PS1+="${FG_BLUE} " # end DIRECTORY container
 PS1+="${FG_BLACK}"
-PS1+=" \$(folders) " # print number of folders
-PS1+=" \$(find . -mindepth 1 -maxdepth 1 -type f 2>> /dev/null | wc -l) " # print number of files
-PS1+=" \$(find . -mindepth 1 -maxdepth 1 -type l 2>> /dev/null | wc -l) " # print number of symlinks
 PS1+="${FMT_RESET}${FG_CYAN}"
 PS1+="\$(git branch 2> /dev/null | grep '^*' | colrm 1 2 | xargs -I BRANCH echo -n \"" # check if git branch exists
-PS1+="\$(parse_git_bg) " # end FILES container / begin BRANCH container
-PS1+="${FG_BLACK} BRANCH " # print current git branch
-PS1+="${FMT_RESET}\$(parse_git_fg)\")" # end last container (either FILES or BRANCH)
-PS1+="\$(gpgRunning)"	# Show if pass key is currently valid
+PS1+="\$(parse_git_bg) " # end FILES container / begin BRANCH container
+PS1+="${FG_BLACK}⎇ BRANCH " # print current git branch
+PS1+="${FMT_RESET}\$(parse_git_fg)\")" # end last container (either FILES or BRANCH)
 PS1+="${FG_BLUE}"
-PS1+="\$(codeLang)"		# Code languages in the current directory
 PS1+="\$(extraLine)"    # Anything other than standard terminal stuff
 PS1+="\n"
-PS1+="${FG_BLUE}╰ " # end arrow to prompt
+PS1+="${FG_BLUE}" # end arrow to prompt
 PS1+="${FG_CYAN}\\$ " # print prompt
 PS1+="${FMT_RESET}"
 export PS1
