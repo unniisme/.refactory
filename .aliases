@@ -40,3 +40,7 @@ git status"
 alias mlt="rlwrap sml"                          #Sml
 
 alias openAI="source ~/.refactory/scripts/openAI.sh"
+
+#flask
+alias flask_host="flask run --host=0.0.0.0 -p 5500"
+alias flask_test="flask run --host=0.0.0.0 -p 5500 --debug"
