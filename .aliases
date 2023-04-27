@@ -28,7 +28,8 @@ alias p_lock="gpgconf --kill gpg-agent"
 #Firefox
 alias fox="firefox"
 alias foxu="firefox -P 'unnii' &"
-alias foxi="firefox -private-window &"
+alias foxi="firefox -P 'unnii' -private-window &"
+alias foxw="firefox -P 'work' &"
 
 #Misc
 alias doOS="cd ~/Documents/Projects/OS/repo/112001053_112001057
@@ -38,4 +39,4 @@ code .
 git status"
 alias mlt="rlwrap sml"                          #Sml
 
-alias openAI="source ~/.refactory/Shortcuts/openAI.sh"
+alias openAI="source ~/.refactory/scripts/openAI.sh"
