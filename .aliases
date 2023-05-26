@@ -1,17 +1,12 @@
 #!/bin/bash
 
-alias kee='keepass2 ~/.password-store/Hehe.kdbx'      #Keepass
 alias ded="shutdown -h now"                     #Shutdown
 alias red="shutdown -h -r now"                  #Restart
 alias up="sudo apt update && sudo apt upgrade"  #Update and upgrade
 alias folder="nemo . &"                         #Open file manager from cli
 alias x="exit"                                  #quick exit
-alias Software="udisksctl mount --block-device=/dev/nvme0n1p5
-cd /media/unnii/Softwares"
 alias g="git"
-
-#Show mounted drives
-alias drives="mount | awk -F' ' '{ printf \"%s\t%s\n\",\$1,\$3; }' | column -t | egrep ^/dev/ | sort"
+alias as="ssh jyothiradithya@us286"
 
 
 alias lsa="ls -la"						#list all
@@ -27,16 +22,10 @@ alias p_lock="gpgconf --kill gpg-agent"
 
 #Firefox
 alias fox="firefox"
-alias foxu="firefox -P 'unnii' &"
-alias foxi="firefox -P 'unnii' -private-window &"
-alias foxw="firefox -P 'work' &"
 
 #Misc
-alias doOS="cd ~/Documents/Projects/OS/repo/112001053_112001057
-git status"
-alias doOCR="cd ~/Documents/Projects/OCR-indic/
-code .
-git status"
-alias mlt="rlwrap sml"                          #Sml
-
 alias openAI="source ~/.refactory/scripts/openAI.sh"
+
+export SSH_M="jyothiradithya@us286"
+export VISUAL=vim
+export EDITOR="$VISUAL"

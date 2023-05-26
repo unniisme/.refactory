@@ -30,11 +30,11 @@ folders() {
 }
 
 parse_git_bg() {
-	[[ $(git status -s 2> /dev/null) ]] && echo -e "\e[43m" || echo -e "\e[42m"
+	[[ $(git status -s 2> /dev/null) ]] && printf ${BG_YELLOW:2:6} || printf ${BG_GREEN:2:6}
 }
 
 parse_git_fg() {
-	[[ $(git status -s 2> /dev/null) ]] && echo -e "\e[33m" || echo -e "\e[32m"
+	[[ $(git status -s 2> /dev/null) ]] && printf ${FG_YELLOW:2:6} || printf ${FG_GREEN:2:6}
 }
 
 
@@ -121,7 +121,7 @@ extraLine() {	# for inserting a new line in specific cases. example is given bel
 
 	#Pass
 	if [ "${PWD##*/}" == ".password-store" ]; then
-		string="${FG_BLUE:2:6}\n│  ${FG_RED:2:6} ﳳ pass ${FMT_RESET:2:6}"
+		string="${FG_BLUE:2:6}\n│  ${FG_RED:2:6} 󰟵 pass ${FMT_RESET:2:6}"
 	fi
 	
 	printf "$string"
@@ -135,7 +135,7 @@ dircheck () {
 PS1="\$(dircheck)"
 PS1+="\n${FG_BLUE}╭─" # begin arrow to prompt	
 PS1+="${FG_MAGENTA}" # begin USERNAME container
-PS1+="${BG_MAGENTA}${FG_CYAN}${FMT_BOLD}   " # print OS icon
+PS1+="${BG_MAGENTA}${FG_CYAN}${FMT_BOLD}   " # print OS icon
 PS1+="${FG_WHITE}\u " # print username
 PS1+="${FMT_UNBOLD} ${FG_MAGENTA}${BG_GREEN} " # end USERNAME container / begin TIME container
 PS1+="${FG_BLACK} \D{%d/%m/%Y} " # print time 
@@ -144,8 +144,6 @@ PS1+="${FG_GREY}\w " # print directory
 PS1+="${FG_BLUE}${BG_CYAN} " # end DIRECTORY container / begin FILES container
 PS1+="${FG_BLACK}"
 PS1+=" \$(folders) " # print number of folders
-PS1+=" \$(find . -mindepth 1 -maxdepth 1 -type f 2>> /dev/null | wc -l) " # print number of files
-PS1+=" \$(find . -mindepth 1 -maxdepth 1 -type l 2>> /dev/null | wc -l) " # print number of symlinks
 PS1+="${FMT_RESET}${FG_CYAN}"
 PS1+="\$(git branch 2> /dev/null | grep '^*' | colrm 1 2 | xargs -I BRANCH echo -n \"" # check if git branch exists
 PS1+="\$(parse_git_bg) " # end FILES container / begin BRANCH container

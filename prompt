@@ -3,9 +3,7 @@
 #source this in .bashrc to apply to open terminals
 
 # Check for visual monitor
-if [[ "$(tty)" == *"pts"* ]]; then
-	source ~/.refactory/default.prompt
-fi
+source ~/.refactory/default.prompt
 
 # Prompt aliases
 alias refactory="source ~/.refactory/default.prompt"
