@@ -104,8 +104,7 @@ codeLang() {
 		string+="${FG_RED:2:6}  ${FMT_RESET:2:6}"
 	fi 
 
-	printf "$string"
-
+	printf "$string" # Also set cursor
 }
 
 extraLine() {	# for inserting a new line in specific cases. example is given below
@@ -159,6 +158,7 @@ PS1+="\n"
 PS1+="${FG_BLUE}╰ " # end arrow to prompt
 PS1+="${FG_CYAN}\\$ " # print prompt
 PS1+="${FMT_RESET}"
+PS1+="\033[6 q"  #For restoring cursor, especially after vim
 export PS1
 
 
@@ -209,3 +209,8 @@ function pastef {
     fi
   done
 }
+
+# Vim defaults
+export GIT_EDITOR=vim
+export VISUAL=vim
+export EDITOR="$VISUAL"
