@@ -132,6 +132,7 @@ dircheck () {
 }
 
 PS1="\$(dircheck)"
+PS1+="\033[6 q"  #For restoring cursor, especially after vim
 PS1+="\n${FG_BLUE}╭─" # begin arrow to prompt	
 PS1+="${FG_MAGENTA}" # begin USERNAME container
 PS1+="${BG_MAGENTA}${FG_CYAN}${FMT_BOLD}   " # print OS icon
@@ -158,7 +159,6 @@ PS1+="\n"
 PS1+="${FG_BLUE}╰ " # end arrow to prompt
 PS1+="${FG_CYAN}\\$ " # print prompt
 PS1+="${FMT_RESET}"
-PS1+="\033[6 q"  #For restoring cursor, especially after vim
 export PS1
 
 
