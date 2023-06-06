@@ -14,17 +14,10 @@ set autoindent
 let &t_SI = "\e[5 q"
 let &t_EI = "\e[2 q"
 
-call plug#begin()
-Plug 'altercation/vim-colors-solarized'
-Plug 'catppuccin/nvim'
-Plug 'vim-airline/vim-airline'
-Plug 'preservim/nerdtree'
-call plug#end()
-
 syntax enable
 set background=dark
 let g:solarized_termcolors=256
-colorscheme solarized 
+colorscheme koehler 
 
 " air-line
 let g:airline_powerline_fonts = 1
