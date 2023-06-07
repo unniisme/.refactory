@@ -3,7 +3,6 @@
 alias ded="shutdown -h now"                     #Shutdown
 alias red="shutdown -h -r now"                  #Restart
 alias up="sudo apt update && sudo apt upgrade"  #Update and upgrade
-alias folder="nemo . &"                         #Open file manager from cli
 alias x="exit"                                  #quick exit
 alias g="git"
 alias as="ssh jyothiradithya@us286"
