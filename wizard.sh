@@ -3,7 +3,7 @@
 # Run this to install or uninstall the prompt on the machine.
 # Mayn't always work
 
-BASHRC="$HOME/.bash_profile"
+BASHRC="$HOME/.bashrc"
 VIMRC="$HOME/.vimrc"
 GITCONFIG="$HOME/.gitconfig"
 
@@ -36,7 +36,7 @@ case "$1" in
     echo "  uninstall - Uninstall .refactory customizations"
     ;;
   "install")
-    echo "Installing refactory for Mac"
+    echo "Installing refactory"
     read -p "Warning: This will override .gitconfig and .vimrc. Do you wish to continue? (Y/n) " answer
     if [[ $answer == n ]]; then
         echo "Aborting.."
@@ -48,8 +48,8 @@ case "$1" in
     if grep -q "^: .refactory *" "$BASHRC"; then
         echo "bashrc already sourced"
     else
-        echo ": .refactory & source $DIR/prompt #refactory prompt" >> "$BASHRC"
-        ehco "bashrc sourced"
+        echo "source $DIR/prompt #:.refactory:" >> "$BASHRC"
+        echo "bashrc sourced"
     fi
 
     echo "Overriding .vimrc"
@@ -63,8 +63,9 @@ case "$1" in
   "uninstall")
     echo "Uninstalling refactory for Mac"
     # Find and delete the line that starts with ": .refactory" in the file $BASHRC
-    sed -i '' -e '/^: \.refactory/d' "$BASHRC"
-    
+    sed -i '' -e '/\:.refactory:$/d' "$BASHRC"
+
+
     echo "Deleting .vimrc"
     rm -f "$VIMRC"
 
