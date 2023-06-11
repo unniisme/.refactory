@@ -35,7 +35,7 @@
 	diff = auto
 	status = auto
 	showbranch = auto
-	ui = true
+	ui = auto
 
 # color.branch
 #     A boolean to enable/disable color in the output of git-branch(1). May be set to always, false (or
@@ -130,11 +130,8 @@
 	autosetuprebase = always
 [rerere]
 	enabled = 1
-[log]
-        date = short
-        # date = relative
-[format]
-        pretty = '%C(yellow)%h%Creset %C(magenta)%cd%Creset %d %s'
+#[format]
+        #pretty = '%C(yellow)%h%Creset %C(magenta)%cd%Creset %d %s'
 
 #For merge conflict resolution: https://gist.github.com/643979
 #
