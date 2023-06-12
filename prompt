@@ -1,15 +1,19 @@
 #!/bin/bash
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 #source this in .bashrc to apply to open terminals
 
 # Check for visual monitor
 if [[ "$(tty)" == *"pts"* ]]; then
-	source ~/.refactory/default.prompt
+	source $DIR/default.prompt
 fi
 
 # Prompt aliases
-alias refactory="source ~/.refactory/default.prompt"
+alias refactory="source $DIR/default.prompt"
 
 
 # Other aliases
-source ~/.refactory/.aliases
+source $DIR/.aliases
+
+# Path
+PATH="$PATH:$DIR/bin"

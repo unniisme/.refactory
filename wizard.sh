@@ -52,14 +52,6 @@ case "$1" in
         echo "bashrc sourced"
     fi
 
-    echo "Adding path to bashrc"
-    if grep -q "\:.refactory-path:$" "$BASHRC"; then
-        echo "path already added"
-    else
-        echo "export PATH=\"\$PATH:$DIR/bin\" #:.refactory-path:" >> "$BASHRC"
-        echo "path added"
-    fi
-
 
     echo "Overriding .vimrc"
     cp -f "$DIR/.vimrc" "$VIMRC"
@@ -71,12 +63,10 @@ case "$1" in
     ;;
 
   "uninstall")
-    echo "Uninstalling refactory for Mac"
+    echo "Uninstalling refactory"
 
     # Find and delete the line that ends with ":.refactory:" in the file $BASHRC
     sed -i '' -e '/\:.refactory:$/d' "$BASHRC"
-    # Similarly find and delete the path line
-    sed -i '' -e '/\:.refactory-path:$/d' "$BASHRC"
 
 
     echo "Deleting .vimrc"
