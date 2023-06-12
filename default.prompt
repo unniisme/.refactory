@@ -131,26 +131,29 @@ dircheck () {
 	:
 }
 
+LEFT_DIV=
+RIGHT_DIV=
+
 PS1="\$(dircheck)"
 PS1+="\033[6 q"  #For restoring cursor, especially after vim
 PS1+="\n${FG_BLUE}╭─" # begin arrow to prompt	
-PS1+="${FG_MAGENTA}" # begin USERNAME container
+PS1+="${FG_MAGENTA}${LEFT_DIV}" # begin USERNAME container
 PS1+="${BG_MAGENTA}${FG_CYAN}${FMT_BOLD}   " # print OS icon
 PS1+="${FG_WHITE}\u " # print username
-PS1+="${FMT_UNBOLD} ${FG_MAGENTA}${BG_GREEN} " # end USERNAME container / begin TIME container
+PS1+="${FMT_UNBOLD} ${FG_MAGENTA}${BG_GREEN}${RIGHT_DIV} " # end USERNAME container / begin TIME container
 PS1+="${FG_BLACK} \D{%d/%m/%Y} " # print time 
-PS1+="${FG_GREEN}${BG_BLUE} " # end TIME container / begin DIRECTORY container
+PS1+="${FG_GREEN}${BG_BLUE}${RIGHT_DIV} " # end TIME container / begin DIRECTORY container
 PS1+="${FG_GREY}\w " # print directory
-PS1+="${FG_BLUE}${BG_CYAN} " # end DIRECTORY container / begin FILES container
+PS1+="${FG_BLUE}${BG_CYAN}${RIGHT_DIV} " # end DIRECTORY container / begin FILES container
 PS1+="${FG_BLACK}"
 PS1+=" \$(folders) " # print number of folders
 PS1+=" \$(find . -mindepth 1 -maxdepth 1 -type f 2>> /dev/null | wc -l) " # print number of files
 PS1+=" \$(find . -mindepth 1 -maxdepth 1 -type l 2>> /dev/null | wc -l) " # print number of symlinks
 PS1+="${FMT_RESET}${FG_CYAN}"
 PS1+="\$(git branch 2> /dev/null | grep '^*' | colrm 1 2 | xargs -I BRANCH echo -n \"" # check if git branch exists
-PS1+="\$(parse_git_bg) " # end FILES container / begin BRANCH container
+PS1+="\$(parse_git_bg)${RIGHT_DIV} " # end FILES container / begin BRANCH container
 PS1+="${FG_BLACK} BRANCH " # print current git branch
-PS1+="${FMT_RESET}\$(parse_git_fg)\")" # end last container (either FILES or BRANCH)
+PS1+="${FMT_RESET}\$(parse_git_fg)\")${RIGHT_DIV}" # end last container (either FILES or BRANCH)
 PS1+="\$(gpgRunning)"	# Show if pass key is currently valid
 PS1+="${FG_BLUE}"
 PS1+="\$(codeLang)"		# Code languages in the current directory
