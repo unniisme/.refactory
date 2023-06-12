@@ -36,7 +36,7 @@ case "$1" in
     echo "  uninstall - Uninstall .refactory customizations"
     ;;
   "install")
-    echo "Installing refactory"
+    echo "Installing refactory for mint"
     read -p "Warning: This will override .gitconfig and .vimrc. Do you wish to continue? (Y/n) " answer
     if [[ $answer == n ]]; then
         echo "Aborting.."
@@ -52,14 +52,6 @@ case "$1" in
         echo "bashrc sourced"
     fi
 
-    echo "Adding path to bashrc"
-    if grep -q "\:.refactory-path:$" "$BASHRC"; then
-        echo "path already added"
-    else
-        echo "export PATH=\"\$PATH:$DIR/bin\" #:.refactory-path:" >> "$BASHRC"
-        echo "path added"
-    fi
-
 
     echo "Overriding .vimrc"
     cp -f "$DIR/.vimrc" "$VIMRC"
@@ -71,12 +63,10 @@ case "$1" in
     ;;
 
   "uninstall")
-    echo "Uninstalling refactory for Mac"
+    echo "Uninstalling refactory for mint"
 
     # Find and delete the line that ends with ":.refactory:" in the file $BASHRC
     sed -i '' -e '/\:.refactory:$/d' "$BASHRC"
-    # Similarly find and delete the path line
-    sed -i '' -e '/\:.refactory-path:$/d' "$BASHRC"
 
 
     echo "Deleting .vimrc"
