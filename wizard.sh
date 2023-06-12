@@ -45,12 +45,21 @@ case "$1" in
     echo "Continuing.."
 
     # Add a line in bashrc to source refactory, if line is not already present.
-    if grep -q "^: .refactory *" "$BASHRC"; then
+    if grep -q "\:.refactory:$" "$BASHRC"; then
         echo "bashrc already sourced"
     else
-        echo ": .refactory & source $DIR/prompt #refactory prompt" >> "$BASHRC"
-        ehco "bashrc sourced"
+        echo "source $DIR/prompt #:.refactory:" >> "$BASHRC"
+        echo "bashrc sourced"
     fi
+
+    echo "Adding path to bashrc"
+    if grep -q "\:.refactory-path:$" "$BASHRC"; then
+        echo "path already added"
+    else
+        echo "export PATH=\"\$PATH:$DIR/bin\" #:.refactory-path:" >> "$BASHRC"
+        echo "path added"
+    fi
+
 
     echo "Overriding .vimrc"
     cp -f "$DIR/.vimrc" "$VIMRC"
@@ -60,11 +69,16 @@ case "$1" in
 
     echo "Installation completed"
     ;;
+
   "uninstall")
     echo "Uninstalling refactory for Mac"
-    # Find and delete the line that starts with ": .refactory" in the file $BASHRC
-    sed -i '' -e '/^: \.refactory/d' "$BASHRC"
-    
+
+    # Find and delete the line that ends with ":.refactory:" in the file $BASHRC
+    sed -i '' -e '/\:.refactory:$/d' "$BASHRC"
+    # Similarly find and delete the path line
+    sed -i '' -e '/\:.refactory-path:$/d' "$BASHRC"
+
+
     echo "Deleting .vimrc"
     rm -f "$VIMRC"
 
