@@ -53,11 +53,13 @@ case "$1" in
     fi
 
 
-    echo "Overriding .vimrc"
-    cp -f "$DIR/.vimrc" "$VIMRC"
+    echo "Backing up .vimrc"
+    mv -f "$VIMRC" "$DIR/bckup/"
+    ln -s "$DIR/.vimrc" "$VIMRC"
 
-    echo "Overriding .gitconfig"
-    cp -f "$DIR/.gitconfig" "$GITCONFIG"
+    echo "Backing up .gitconfig"
+    mv -f "$GITCONFIG" "$DIR/bckup/"
+    ln -s "$DIR/.gitconfig" "$GITCONFIG"
 
     echo "Installation completed"
     ;;
@@ -69,11 +71,11 @@ case "$1" in
     sed -i '' -e '/\:.refactory:$/d' "$BASHRC"
 
 
-    echo "Deleting .vimrc"
-    rm -f "$VIMRC"
+    echo "Replacing .vimrc"
+    mv -f "$DIR/bckup/.vimrc" "$VIMRC" 
 
-    echo "Deleting .gitconfig"
-    rm -f "$GITCONFIG"
+    echo "Replacing .gitconfig"
+    mv -f "$DIR/bckup/.gitconfig" "$GITCONFIG" 
     
     echo "Uninstallation completed"
     ;;
