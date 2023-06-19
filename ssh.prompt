@@ -1,0 +1,153 @@
+#!/bin/bash
+
+FMT_BOLD="\[\e[01m\]"
+FMT_DIM="\[\e[02m\]"
+FMT_RESET="\[\e[00m\]"
+FMT_UNBOLD="\[\e[22m\]"
+FMT_UNDIM="\[\e[22m\]"
+FG_BLACK="\[\e[30m\]"
+FG_BLUE="\[\e[34m\]"
+FG_CYAN="\[\e[36m\]"
+FG_GREEN="\[\e[32m\]"
+FG_YELLOW="\[\e[33m\]"
+FG_GREY="\[\e[37m\]"
+FG_MAGENTA="\[\e[35m\]"
+FG_RED="\[\e[31m\]"
+FG_WHITE="\[\e[97m\]"
+FG_ORANGE="\033[38;2;255;165;0m"
+BG_BLACK="\[\e[40m\]"
+BG_BLUE="\[\e[44m\]"
+BG_CYAN="\[\e[46m\]"
+BG_GREEN="\[\e[42m\]"
+BG_YELLOW="\[\e[43m\]"
+BG_MAGENTA="\[\e[45m\]"
+
+FG_RANDOM="\033[38;5;130m"
+BG_RANDOM="\033[48:5:130m"
+
+#---------------Intro Message----------------
+# echo -e "${BG_BLUE:2:6}"
+# echo '
+#   __  ______  ____  (_|_)________ ___  ___ \ _____   ____ ___  ____ ______/ /_  (_)___  ___ 
+#  / / / / __ \/ __ \/ / / ___/ __ `__ \/ _ \ / ___/  / __ `__ \/ __ `/ ___/ __ \/ / __ \/ _ \
+# / /_/ / / / / / / / / (__  ) / / / / /  __ (__  )  / / / / / / /_/ / /__/ / / / / / / /  __/
+# \__,_/_/ /_/_/ /_/_/_/____/_/ /_/ /_/\___/ ____/  /_/ /_/ /_/\__,_/\___/_/ /_/_/_/ /_/\___/ '
+# echo -e "${FMT_RESET:2:6}"
+#---------------------------------------------
+
+folders() {
+	echo $(find . -mindepth 1 -maxdepth 1 -type d 2>> /dev/null  | wc -l)
+}
+
+parse_git_bg() {
+	[[ $(git status -s 2> /dev/null) ]] && echo -e "\e[43m" || echo -e "\e[42m"
+}
+
+parse_git_fg() {
+	[[ $(git status -s 2> /dev/null) ]] && echo -e "\e[33m" || echo -e "\e[32m"
+}
+
+
+#quite specific to gpg in my PC. Might have to edit
+gpgRunning() {
+   	STR=$(gpg-connect-agent 'keyinfo --list' /bye)
+	SUB="D - - 1"
+	if [[ "$STR" == *"$SUB"* ]]; then
+		echo "  "
+	fi
+}
+
+extraLine() {	# for inserting a new line in specific cases. example is given below
+
+
+	string=""
+
+	#Customization
+	if [ "${PWD##*/}" == ".refactory" ]; then
+		#string="\n│  ${FG_CYAN:2:6}${BG_CYAN:2:6}${FG_RED:2:6} Customizing ${FMT_RESET:2:6}${FG_CYAN:2:6}"
+		string="${FG_BLUE:2:6}\n│  ${FG_RED:2:6}  Customizing ${FMT_RESET:2:6}"
+	fi
+
+	#Pass
+	if [ "${PWD##*/}" == ".password-store" ]; then
+		string="${FG_BLUE:2:6}\n│  ${FG_RED:2:6} ﳳ pass ${FMT_RESET:2:6}"
+	fi
+	
+	printf "$string"
+}
+
+# Run the code specific to each directory wise prompt
+dircheck () {
+	:
+}
+
+PS1="\$(dircheck)"
+PS1+="\n${FG_BLUE}╭─" # begin arrow to prompt	
+PS1+="${FG_MAGENTA}" # begin USERNAME container
+PS1+="${BG_MAGENTA}${FG_CYAN}${FMT_BOLD} >_ " # print OS icon
+PS1+="${FG_WHITE}\u " # print username
+PS1+="${FMT_UNBOLD} ${FG_MAGENTA}" # end USERNAME container / begin TIME container
+PS1+="${FG_BLACK}"
+PS1+="${FMT_RESET}${FG_CYAN}"
+PS1+="\$(git branch 2> /dev/null | grep '^*' | colrm 1 2 | xargs -I BRANCH echo -n \"" # check if git branch exists
+PS1+="\$(parse_git_bg) "
+PS1+="${FG_BLACK}⎇ BRANCH " # print current git branch
+PS1+="${FMT_RESET}\$(parse_git_fg)\")" # end last container (either FILES or BRANCH)
+PS1+="${FMT_RESET}\n" # end USERNAME container / begin DIRECTORY container
+PS1+="${FG_BLUE}│${FMT_RESET} ${BG_BLUE}${FG_GREY} \w ${FMT_RESET}" # print directory
+PS1+="${FMT_RESET} " # end DIRECTORY container
+PS1+="\$(extraLine)"    # Anything other than standard terminal stuff
+PS1+="\n"
+PS1+="${FG_BLUE}╰> " # end arrow to prompt
+PS1+="${FG_CYAN}\\$ " # print prompt
+PS1+="${FMT_RESET}"
+export PS1
+
+
+# cd overrides
+function CD() { 
+	# cdls
+	cd "$@" && ls --color=auto;
+
+	# Show git
+	if [ -d ".git" ]; then
+    	git status
+	fi
+
+	## Prompt override
+	#Potentially dangerous
+	PROMPT_FILE=$(ls *.refactory 2>/dev/null)
+	if [ -n "$PROMPT_FILE" ]; then
+		source "$PROMPT_FILE"
+	fi
+}
+
+alias c="CD"
+alias Cd="CD"
+alias cD="CD"
+#alias cd="CD" #Not recommended
+
+
+# copy-paste
+function copyf {
+  _copypastefiles=("$@")
+  _copypastesrc="$PWD"
+  _copypastemode=copy
+}
+
+function cutf {
+  _copypastefiles=("$@")
+  _copypastesrc="$PWD"
+  _copypastemode=cut
+}
+
+function pastef {
+  for f in "${_copypastefiles[@]}"
+  do
+    cp "${_copypastesrc}/$f" .
+    if [[ ${_copypastemode} = "cut" ]]
+    then
+      rm "${_copypastesrc}/$f"
+    fi
+  done
+}
