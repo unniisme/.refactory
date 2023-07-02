@@ -5,6 +5,19 @@ import os
 import readline
 import re
 
+helpString = """
+Refactory Python Console
+Mostly just the normal python console with a few added features
+Any variable printed to the console is save to $[n] and can be accessed using the same name
+use ![command] to type bash commands
+use !<[command] to type bash commands and save it's output as a dict to the console
+Make a file called 'import.log' in the access directory with all the import statements
+    for those statements to be called on launch of the console
+'ex' is shortcut for exit()
+"""
+
+sys.path.append(".")
+
 # Function to pattern match
 def replace_substrings(string):
     return re.sub(r'\$(\d+)', r'consVars[\1]', string)
@@ -30,9 +43,22 @@ class PyCons(code.InteractiveConsole):
         # Save line to history
         self._history.append(line)
 
-        # exit shorcut
+        # exit shortcut
         if line.strip() == "ex":
             raise SystemExit
+
+        # help
+        if line.strip() == "help":
+            print(helpString)
+            return None
+
+        # Terminal commands
+        if line[0] == "!":
+            if line[1] == "<":
+                self.WriteVar(self.handlecli(line[2:], getReturn=True))
+            else:
+                self.handlecli(line[1:])
+            return None
 
         # interpeter variables are accessed using $n
         line = replace_substrings(line)
@@ -54,10 +80,7 @@ class PyCons(code.InteractiveConsole):
             if output_buffer[0][0] == "<":
                 print("".join(output_buffer[:-1]))
             else:
-                self.push(f"consVars[{self.uniq}] = " + "".join(output_buffer[:-1]))
-                print(f"${self.uniq} =","".join(output_buffer[:-1]))
-                self.uniq += 1
-
+                self.WriteVar("".join(output_buffer[:-1]))
         return result
 
 
@@ -79,6 +102,17 @@ class PyCons(code.InteractiveConsole):
             # Print history to console
             # for i in range(readline.get_current_history_length()):
             #     print(readline.get_history_item(i + 1))
+    
+    def WriteVar(self, value):
+        self.push(f"consVars[{self.uniq}] = " + value)
+        print(f"${self.uniq} =",value)
+        self.uniq += 1
+
+    def handlecli(self, line, getReturn = False):
+        if getReturn:
+            outStream = os.popen(line)
+            return str([ s.strip() for s in outStream.readlines()])
+        os.system(line)
 
 def my_repl(imports):
     interpreter = PyCons(imports)
