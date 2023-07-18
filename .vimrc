@@ -14,12 +14,10 @@ set autoindent
 let &t_SI = "\e[5 q"
 let &t_EI = "\e[2 q"
 
-call plug#begin()
-Plug 'altercation/vim-colors-solarized'
-Plug 'catppuccin/nvim'
-Plug 'vim-airline/vim-airline'
-Plug 'preservim/nerdtree'
-call plug#end()
+"" Plugins
+" 'altercation/vim-colors-solarized'
+" 'vim-airline/vim-airline'
+" 'preservim/nerdtree'
 
 syntax enable
 set background=dark
@@ -60,10 +58,10 @@ let g:airline_symbols.linenr = ''
 nnoremap <C-t>     :tabnew<CR>
 inoremap <C-t>     <Esc>:tabnew<CR>
 " CTRL-Tab is next tab
-noremap <C-Tab> :<C-U>tabnext<CR>
-inoremap <C-Tab> <C-\><C-N>:tabnext<CR>
+noremap <C-Tab> :tabnext<CR>
+inoremap <C-Tab> <Esc>:tabnext<CR>
 cnoremap <C-Tab> <C-C>:tabnext<CR>
 " CTRL-SHIFT-Tab is previous tab
-noremap <C-S-Tab> :<C-U>tabprevious<CR>
-inoremap <C-S-Tab> <C-\><C-N>:tabprevious<CR>
+noremap <C-S-Tab> :tabprevious<CR>
+inoremap <C-S-Tab> <Esc>:tabprevious<CR>
 cnoremap <C-S-Tab> <C-C>:tabprevious<CR>

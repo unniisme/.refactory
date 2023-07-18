@@ -5,6 +5,7 @@
 
 BASHRC="$HOME/.bashrc"
 VIMRC="$HOME/.vimrc"
+VIMPACK="$HOME/.vim/pack"
 GITCONFIG="$HOME/.gitconfig"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -36,7 +37,7 @@ case "$1" in
     echo "  uninstall - Uninstall .refactory customizations"
     ;;
   "install")
-    echo "Installing refactory"
+    echo "Installing refactory for mint"
     read -p "Warning: This will override .gitconfig and .vimrc. Do you wish to continue? (Y/n) " answer
     if [[ $answer == n ]]; then
         echo "Aborting.."
@@ -53,27 +54,32 @@ case "$1" in
     fi
 
 
-    echo "Overriding .vimrc"
-    cp -f "$DIR/.vimrc" "$VIMRC"
+    echo "Backing up .vimrc"
+    mv -f "$VIMRC" "$DIR/bckup/"
+    ln -s "$DIR/.vimrc" "$VIMRC"
+    mkdir -p "$VIMPACK/refactory"
+    ln -s "$DIR/vimPack/start/" "$VIMPACK/refactory/start"
 
-    echo "Overriding .gitconfig"
-    cp -f "$DIR/.gitconfig" "$GITCONFIG"
+    echo "Backing up .gitconfig"
+    mv -f "$GITCONFIG" "$DIR/bckup/"
+    ln -s "$DIR/.gitconfig" "$GITCONFIG"
 
     echo "Installation completed"
     ;;
 
   "uninstall")
-    echo "Uninstalling refactory"
+    echo "Uninstalling refactory for mint"
 
     # Find and delete the line that ends with ":.refactory:" in the file $BASHRC
     sed -i '' -e '/\:.refactory:$/d' "$BASHRC"
 
 
-    echo "Deleting .vimrc"
-    rm -f "$VIMRC"
+    echo "Replacing .vimrc"
+    mv -f "$DIR/bckup/.vimrc" "$VIMRC" 
+    rm -r "$VIMPACK/refactory"
 
-    echo "Deleting .gitconfig"
-    rm -f "$GITCONFIG"
+    echo "Replacing .gitconfig"
+    mv -f "$DIR/bckup/.gitconfig" "$GITCONFIG" 
     
     echo "Uninstallation completed"
     ;;
