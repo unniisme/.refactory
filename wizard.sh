@@ -5,6 +5,7 @@
 
 BASHRC="$HOME/.bashrc"
 VIMRC="$HOME/.vimrc"
+VIMPACK="$HOME/.vim/pack"
 GITCONFIG="$HOME/.gitconfig"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -56,6 +57,8 @@ case "$1" in
     echo "Backing up .vimrc"
     mv -f "$VIMRC" "$DIR/bckup/"
     ln -s "$DIR/.vimrc" "$VIMRC"
+    mkdir -p "$VIMPACK/refactory"
+    ln -s "$DIR/vimPack/start/" "$VIMPACK/refactory/start"
 
     echo "Backing up .gitconfig"
     mv -f "$GITCONFIG" "$DIR/bckup/"
@@ -73,6 +76,7 @@ case "$1" in
 
     echo "Replacing .vimrc"
     mv -f "$DIR/bckup/.vimrc" "$VIMRC" 
+    rm -r "$VIMPACK/refactory"
 
     echo "Replacing .gitconfig"
     mv -f "$DIR/bckup/.gitconfig" "$GITCONFIG" 
