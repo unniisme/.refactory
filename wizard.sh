@@ -3,19 +3,10 @@
 # Run this to install or uninstall the prompt on the machine.
 # Mayn't always work
 
-BASHRC="$HOME/.bashrc"
-VIMRC="$HOME/.vimrc"
-VIMPACK="$HOME/.vim/pack"
-GITCONFIG="$HOME/.gitconfig"
-
-# vim packages
-PACKAGES=(
-  'altercation/vim-colors-solarized' 
-  'vim-airline/vim-airline' 
-  'preservim/nerdtree'
-)
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+source $DIR/wizard_options.sh
 
 while getopts "B:V:G:" opt; do
   case ${opt} in
