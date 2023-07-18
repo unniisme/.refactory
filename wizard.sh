@@ -8,6 +8,13 @@ VIMRC="$HOME/.vimrc"
 VIMPACK="$HOME/.vim/pack"
 GITCONFIG="$HOME/.gitconfig"
 
+# vim packages
+PACKAGES=(
+  'altercation/vim-colors-solarized' 
+  'vim-airline/vim-airline' 
+  'preservim/nerdtree'
+)
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 while getopts "B:V:G:" opt; do
@@ -35,9 +42,10 @@ case "$1" in
     echo "  help      - Display this help message"
     echo "  install   - Install .refactory customizations"
     echo "  uninstall - Uninstall .refactory customizations"
+    echo "  vimPack   - git clone all required vim packs"
     ;;
   "install")
-    echo "Installing refactory for mint"
+    echo "Installing refactory"
     read -p "Warning: This will override .gitconfig and .vimrc. Do you wish to continue? (Y/n) " answer
     if [[ $answer == n ]]; then
         echo "Aborting.."
@@ -68,7 +76,7 @@ case "$1" in
     ;;
 
   "uninstall")
-    echo "Uninstalling refactory for mint"
+    echo "Uninstalling refactory"
 
     # Find and delete the line that ends with ":.refactory:" in the file $BASHRC
     sed -i '' -e '/\:.refactory:$/d' "$BASHRC"
@@ -83,6 +91,17 @@ case "$1" in
     
     echo "Uninstallation completed"
     ;;
+
+  "vimPack")
+    echo "cloning vim packs"
+    cd "$DIR/vimPack/start"
+
+    for package in "${PACKAGES[@]}"
+    do
+      git clone "https://github.com/$package"
+    done
+    ;;
+
   *)
     echo "Invalid option. Type 'help' for a list of available options."
     exit 1
