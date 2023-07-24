@@ -36,7 +36,7 @@ case "$1" in
     echo "  vimPack   - git clone all required vim packs"
     ;;
   "install")
-    echo "Installing refactory"
+    echo "Installing refactory in mint"
     read -p "Warning: This will override .gitconfig and .vimrc. Do you wish to continue? (Y/n) " answer
     if [[ $answer == n ]]; then
         echo "Aborting.."
