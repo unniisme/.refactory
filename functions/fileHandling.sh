@@ -23,3 +23,7 @@ function pastef {
     fi
   done
 }
+
+function whereis (){
+  find . -name "$1*";
+}
