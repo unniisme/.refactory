@@ -14,6 +14,12 @@ fi
 # Prompt aliases
 alias refactory="source $DIR/default.prompt"
 
+#functions
+for file in $DIR/functions/*; do
+  if [ -f "$file" ]; then
+    source "$file"
+  fi
+done
 
 # Other aliases
 source $DIR/.aliases
