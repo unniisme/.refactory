@@ -1,0 +1,44 @@
+#!/bin/bash
+
+REFACTORY=~/.refactory
+
+# Get battery status
+battery_status=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep "state" | awk '{print $2}')
+battery_percentage=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep "percentage" | awk '{print $2}' | tr -d '%')
+
+# Path to your background images
+WALL="/home/unnii/Pictures/wall"
+
+# Function to change background
+change_background() {
+    gsettings set org.cinnamon.desktop.background picture-uri "file://$1"   
+}
+
+# Check battery status and set background
+if [ "$battery_status" == "fully-charged" ]; then
+    change_background "$WALL/space_charging.jpg"
+elif [ "$battery_status" == "discharging" ]; then
+    if [ "$battery_percentage" -gt 65 ]; then
+        change_background "$WALL/space_100.jpg"
+    elif [ "$battery_percentage" -gt 40 ]; then
+        change_background "$WALL/space_75.jpg"
+    elif [ "$battery_percentage" -gt 15 ]; then
+        change_background "$WALL/space_25.jpg"
+    else
+        change_background "$WALL/space_10.jpg"
+    fi
+elif [ "$battery_status" == "charging" ]; then
+    if [ "$battery_percentage" -gt 65 ]; then
+        change_background "$WALL/space_100_charging.jpg"
+    elif [ "$battery_percentage" -gt 40 ]; then
+        change_background "$WALL/space_75_charging.jpg"
+    elif [ "$battery_percentage" -gt 15 ]; then
+        change_background "$WALL/space_25_charging.jpg"
+    else
+        change_background "$WALL/space_10_charging.jpg"
+    fi
+fi
+
+echo "[INFO] [$(date)] Refreshing wallpaper" >> $REFACTORY/log/bg.log
+echo "[DEBUG][$(date)] battery_percentage: $battery_percentage" >> $REFACTORY/log/bg.log
+echo "[DEBUG][$(date)] battery_percentage: $battery_status" >> $REFACTORY/log/bg.log

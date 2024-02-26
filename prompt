@@ -26,3 +26,6 @@ source $DIR/.aliases
 
 # Path
 PATH="$PATH:$DIR/bin"
+
+# Env variable
+REFACTORY=$DIR

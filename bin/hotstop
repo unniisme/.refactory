@@ -1,0 +1,2 @@
+nmcli connection down Hotspot
+echo "Turned off hotspot"

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+SSID=Opiumheimer
+PASSWORD=spooderman
+
+nmcli device wifi hotspot con-name Hotspot ssid $SSID password $PASSWORD
+nmcli connection up Hotspot
+
+nmcli dev wifi show-password

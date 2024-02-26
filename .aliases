@@ -6,9 +6,11 @@ alias red="shutdown -h -r now"                  #Restart
 alias up="sudo apt update && sudo apt upgrade"  #Update and upgrade
 alias folder="nemo . &"                         #Open file manager from cli
 alias x="exit"                                  #quick exit
-alias Software="udisksctl mount --block-device=/dev/nvme0n1p5
-cd /media/unnii/Softwares"
+alias disk="udisksctl mount --block-device=/dev/nvme0n1p4
+cd /media/unnii/unnii"
 alias g="git"
+
+export DISK=/media/unnii/unnii
 
 #Show mounted drives
 alias drives="mount | awk -F' ' '{ printf \"%s\t%s\n\",\$1,\$3; }' | column -t | egrep ^/dev/ | sort"

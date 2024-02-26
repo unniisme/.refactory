@@ -1,0 +1,10 @@
+#!/bin/bash
+
+REFACTORY=~/.refactory
+
+while true; do
+    echo "[INFO] [$(date)] calling refresh" >> $REFACTORY/log/bg.log
+
+    $REFACTORY/bin/refreshWallpaper
+    sleep 10
+done
