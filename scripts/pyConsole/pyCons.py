@@ -40,6 +40,9 @@ class PyCons(code.InteractiveConsole):
 
 
     def push(self, line):
+        if (line.strip() == ""):
+            return
+    
         # Save line to history
         self._history.append(line)
 
@@ -124,6 +127,10 @@ imports = ["from math import *", "from numpy import *"]
 if os.path.isfile("import.log"):
     with open('import.log') as imps:
         imports += imps.readlines()
+
+for file in sys.argv[1:]:
+    imports += [f"from {file[:-3]} import *"] 
     
+print("\n".join(imports))
 my_repl(imports)
 
