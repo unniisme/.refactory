@@ -71,6 +71,7 @@ codeLang() {
 	htmls=$(find . -maxdepth $maxdepth -name "*.html" 2>> /dev/null| wc -l )
 	csss=$(find . -maxdepth $maxdepth -name "*.css" 2>> /dev/null| wc -l )
 	rusts=$(find . -maxdepth $maxdepth -name "*.rs" 2>> /dev/null| wc -l )
+	haskells=$(find . -maxdepth $maxdepth -name "*.hs" 2>> /dev/null| wc -l )
 
 
 	if (($cpps > $basecount)); then 
@@ -102,6 +103,9 @@ codeLang() {
 	fi
 	if (($rusts > $basecount)); then
 		string+="${FG_RED:2:6}  ${FMT_RESET:2:6}"
+	fi 
+	if (($haskells > $basecount)); then
+		string+="${FG_RED:2:6}  ${FMT_RESET:2:6}"
 	fi 
 
 	printf "$string" # Also set cursor
